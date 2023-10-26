@@ -1,0 +1,221 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+
+    font-family: 'Roboto', sans-serif;
+}
+
+
+.app-container {
+    background-image: url(https://staging2.dev.jaycon.com/beta1/wp-content/uploads/Background-for-quote-jaycon.jpg);
+    min-height: 100vh;
+}
+
+.page-wrapper {
+    display: flex;
+    justify-content: space-between;
+    padding-block: 4rem;
+    padding-inline: 4rem;
+    gap: 2rem;
+}
+
+.details-heading {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #fff;
+}
+
+.form-container {
+    background-color: #fff;
+    width: 30rem;
+}
+
+.mandatory {
+    color: red;
+    margin-left: .4rem;
+}
+
+.form-notification {
+    color: red;
+    padding: 1rem;
+
+}
+
+.form-tab {
+    padding: 1rem;
+    display: none;
+}
+
+.form-tab.active {
+    display: block;
+}
+
+.tab-info__text {
+    margin-bottom: 1rem;
+    text-align: right;
+}
+
+.form-input__group {
+    display: flex;
+    gap: .5rem;
+}
+
+.form-input__box {
+    margin-bottom: 1.5rem;
+}
+
+
+.form-input__group .form-input__box {
+    flex-basis: 100%;
+}
+
+.form-input__input {
+    margin-top: .6rem;
+}
+
+.form-input__checkbox {
+    display: flex;
+    gap: 1rem;
+    align-items: baseline;
+    margin-block: 1.5rem;
+}
+
+.file-result {
+    margin-top: 1rem;
+
+}
+
+.file-card {
+    margin-bottom: 0.5rem;
+    padding: 0.4rem 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    border-radius: 6px;
+    background: #e2edff;
+}
+
+.file-delete {
+    cursor: pointer;
+}
+
+.form-input__input input,
+.form-input__input textarea,
+.form-input__input select {
+    border-radius: 5px;
+    padding: .5rem .3rem;
+    width: 100%;
+    border: 1px solid #a8a8a8;
+    font-size: 1rem;
+    resize: none;
+}
+
+
+.form-input__input-file {
+    margin-top: .5rem;
+    position: relative;
+    min-height: 8rem;
+    padding: .6rem;
+    border: 1px solid #a8a8a8;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: .4rem;
+}
+
+.form-input__input-file p {
+    color: #666;
+    font-weight: 600;
+}
+
+.form-input__input-file img {
+    width: 100px;
+}
+
+.form-input__input-file input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+}
+
+
+
+.form-tabs__navigation {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    border: 1px solid #a8a8a8;
+}
+
+.form-nav__btn {
+    color: #fff;
+    background-color: #007b2a;
+    padding: .6rem 2rem;
+    font-size: 1rem;
+    border: none;
+    border-radius: 5px;
+}
+
+.form-nav__btn:hover {
+    cursor: pointer;
+    background-color: #00551c;
+}
+
+.eval-fields {
+    display: none;
+}
+
+.eval-fields.show {
+    display: block;
+}
+
+.details-info__list {
+    color: #fff;
+    list-style: none;
+    margin-top: 2rem;
+}
+
+.details-info__list li {
+    margin-bottom: 1rem;
+    /* font-weight: 600; */
+}
+
+.brands-container {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.detail-logo {
+    margin-bottom: 1rem;
+}
+
+.detail-logo img {
+    width: 130px;
+}
+
+.brands-logo img {
+    max-width: 80px;
+}
+
+button:disabled {
+    background-color: #373737 !important;
+    color: #fff !important;
+}
+
+.file-result-status {
+    font-size: .875rem;
+    padding-block: 0.4rem;
+}

@@ -1,0 +1,777 @@
+{% extends "frappe/templates/web.html" %}
+
+
+{% block content %}
+
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap');
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+
+        font-family: 'Roboto', sans-serif;
+    }
+
+
+    .app-container {
+        background-image: url(https://staging2.dev.jaycon.com/beta1/wp-content/uploads/Background-for-quote-jaycon.jpg);
+        min-height: 100vh;
+    }
+
+    .page-wrapper {
+        display: flex;
+        justify-content: space-between;
+        padding-block: 4rem;
+        padding-inline: 4rem;
+        gap: 2rem;
+    }
+
+    .details-heading {
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: #fff;
+    }
+
+    .form-container {
+        background-color: #fff;
+        width: 30rem;
+    }
+
+    .mandatory {
+        color: red;
+        margin-left: .4rem;
+    }
+
+    .form-notification {
+        color: red;
+        padding: 1rem;
+
+    }
+
+    .form-tab {
+        padding: 1rem;
+        display: none;
+    }
+
+    .form-tab.active {
+        display: block;
+    }
+
+    .tab-info__text {
+        margin-bottom: 1rem;
+        text-align: right;
+        padding: 1rem;
+    }
+
+    .form-input__group {
+        display: flex;
+        gap: .5rem;
+    }
+
+    .form-input__box {
+        margin-bottom: 1.5rem;
+    }
+
+
+    .form-input__group .form-input__box {
+        flex-basis: 100%;
+    }
+
+    .form-input__input {
+        margin-top: .6rem;
+    }
+
+    .form-input__checkbox {
+        display: flex;
+        gap: 1rem;
+        align-items: baseline;
+        margin-block: 1.5rem;
+        margin-block: 0;
+
+    }
+
+    .file-result {
+        margin-top: 1rem;
+
+    }
+
+    .file-card {
+        padding: 0.4rem 1rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 1rem;
+        border-radius: 6px;
+        background: #e2edff;
+    }
+
+    .file-delete {
+        cursor: pointer;
+    }
+
+    .form-input__input input,
+    .form-input__input textarea,
+    .form-input__input select {
+        border-radius: 5px;
+        padding: .5rem .3rem;
+        width: 100%;
+        border: 1px solid #a8a8a8;
+        font-size: 1rem;
+        resize: none;
+    }
+
+
+    .form-input__input-file {
+        margin-top: .5rem;
+        position: relative;
+        min-height: 8rem;
+        padding: .6rem;
+        border: 1px solid #a8a8a8;
+        border-radius: 5px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        gap: .4rem;
+    }
+
+    .form-input__input-file p {
+        color: #666;
+        font-weight: 600;
+    }
+
+    .form-input__input-file img {
+        width: 100px;
+    }
+
+    .form-input__input-file input {
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        opacity: 0;
+        width: 100%;
+        height: 100%;
+        cursor: pointer;
+    }
+
+
+
+    .form-tabs__navigation {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem;
+        border: 1px solid #a8a8a8;
+    }
+
+    .form-nav__btn {
+        color: #fff;
+        background-color: #007b2a;
+        padding: .6rem 2rem;
+        font-size: 1rem;
+        border: none;
+        border-radius: 5px;
+    }
+
+    .form-nav__btn:hover {
+        cursor: pointer;
+        background-color: #00551c;
+    }
+
+    .eval-fields {
+        display: none;
+    }
+
+    .eval-fields.show {
+        display: block;
+    }
+
+    .details-info__list {
+        color: #fff;
+        list-style: none;
+        margin-top: 2rem;
+    }
+
+    .details-info__list li {
+        margin-bottom: 1rem;
+        /* font-weight: 600; */
+    }
+
+    .brands-container {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+    }
+
+    .detail-logo {
+        margin-bottom: 1rem;
+    }
+
+    .detail-logo img {
+        width: 130px;
+    }
+
+    .brands-logo img {
+        max-width: 80px;
+    }
+
+    .selected-tags {
+        display: flex;
+        gap: 5px;
+        margin-top: 0.5rem;
+        flex-wrap: wrap;
+    }
+
+    .tag {
+        padding: 0.4rem;
+        font-size: 0.8rem;
+        display: flex;
+        gap: 0.4rem;
+        align-items: center;
+        justify-content: center;
+        background: #dfdfdf;
+        border-radius: 7px;
+    }
+
+    .remove-tag {
+        all: unset;
+        font-weight: 800;
+        color: red;
+    }
+
+    .tab-title__container {
+        margin-bottom: 2rem;
+    }
+
+    .tab-title {
+        font-weight: 600;
+        font-size: 1.2rem;
+    }
+
+    .tab-title-sub {
+        font-size: .8rem;
+    }
+
+    @media (max-width: 900px) {
+        .form-container {
+            width: 100%;
+        }
+
+        .app-form__section {
+            width: 100%;
+        }
+
+        .page-wrapper {
+            padding-inline: 2rem;
+            display: flex;
+            justify-content: center;
+            gap: 5rem;
+            flex-direction: column;
+            align-items: center;
+        }
+    }
+
+    @media (max-width: 550px) {
+        .page-wrapper {
+            padding-inline: 1rem !important;
+        }
+    }
+</style>
+
+<!-- http://137.184.131.110/files/loading.gif -->
+
+<style>
+    .lds-roller {
+        display: inline-block;
+        position: relative;
+        width: 80px;
+        height: 80px;
+    }
+
+    .lds-roller div {
+        animation: lds-roller 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+        transform-origin: 40px 40px;
+    }
+
+    .lds-roller div:after {
+        content: " ";
+        display: block;
+        position: absolute;
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: #fff;
+        margin: -4px 0 0 -4px;
+    }
+
+    .lds-roller div:nth-child(1) {
+        animation-delay: -0.036s;
+    }
+
+    .lds-roller div:nth-child(1):after {
+        top: 63px;
+        left: 63px;
+    }
+
+    .lds-roller div:nth-child(2) {
+        animation-delay: -0.072s;
+    }
+
+    .lds-roller div:nth-child(2):after {
+        top: 68px;
+        left: 56px;
+    }
+
+    .lds-roller div:nth-child(3) {
+        animation-delay: -0.108s;
+    }
+
+    .lds-roller div:nth-child(3):after {
+        top: 71px;
+        left: 48px;
+    }
+
+    .lds-roller div:nth-child(4) {
+        animation-delay: -0.144s;
+    }
+
+    .lds-roller div:nth-child(4):after {
+        top: 72px;
+        left: 40px;
+    }
+
+    .lds-roller div:nth-child(5) {
+        animation-delay: -0.18s;
+    }
+
+    .lds-roller div:nth-child(5):after {
+        top: 71px;
+        left: 32px;
+    }
+
+    .lds-roller div:nth-child(6) {
+        animation-delay: -0.216s;
+    }
+
+    .lds-roller div:nth-child(6):after {
+        top: 68px;
+        left: 24px;
+    }
+
+    .lds-roller div:nth-child(7) {
+        animation-delay: -0.252s;
+    }
+
+    .lds-roller div:nth-child(7):after {
+        top: 63px;
+        left: 17px;
+    }
+
+    .lds-roller div:nth-child(8) {
+        animation-delay: -0.288s;
+    }
+
+    .lds-roller div:nth-child(8):after {
+        top: 56px;
+        left: 12px;
+    }
+
+    @keyframes lds-roller {
+        0% {
+            transform: rotate(0deg);
+        }
+
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+</style>
+
+<div id="loading" style="
+      position: fixed;
+      width: 100%;
+      margin: 0px auto;
+      text-align: center;
+      opacity: 0.9;
+      background-color: #000;
+      z-index: 5;
+      left: 0px;
+      top: 0;
+      height: auto;
+      bottom: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      ">
+    <div class="lds-roller">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+</div>
+
+
+<div class="app-container">
+
+    <div class="page-wrapper">
+
+        <section class="app-details__section">
+
+            <div class="detail-logo">
+                <img src="/assets/jaycon/images/New-logo-jaycon-version-white.svg" alt="">
+            </div>
+            <div class="details-heading">Request a quote for fast, quality custom parts and standout product design
+                with Jaycon</div>
+
+            <ul class="details-info__list">
+                <li>Customized Pricing & Flexible Lead-Time Options</li>
+                <li>Expert DFM Analysis and Feedback</li>
+                <li>3D Printing, CNC Machining, Urethane Casting, Injection Molding</li>
+                <li>Support from technical manufacturing experts</li>
+                <li>Fully vetted & managed supply chain</li>
+            </ul>
+            <br>
+            <div class="brands-container">
+                <div class="brands-logo">
+                    <img src="/assets/jaycon/images/Logo-Tesla-white.png" alt="">
+                </div>
+                <div class="brands-logo">
+                    <img src="/assets/jaycon/images/logo-raytheon-white.png" alt="">
+                </div>
+                <div class="brands-logo">
+                    <img src="/assets/jaycon/images/logo-Virgin-white.png" alt="">
+                </div>
+                <div class="brands-logo">
+                    <img src="/assets/jaycon/images/logo-universal-studios-white.png" alt="">
+                </div>
+                <!-- <div class="brands-logo">
+                    <img src="https://staging2.dev.jaycon.com/beta1/wp-content/uploads/logo-universal-studios-white.png"
+                        alt="">
+                </div> -->
+                <div class="brands-logo">
+                    <img src="/assets/jaycon/images/Logo-NASA-White.png" alt="">
+                </div>
+                <div class="brands-logo">
+                    <img src="/assets/jaycon/images/Logo-Intel-white.png" alt="">
+                </div>
+                <div class="brands-logo">
+                    <img src="/assets/jaycon/images/logo-Florida-tech-white.png" alt="">
+                </div>
+            </div>
+        </section>
+
+        <section class="app-form__section">
+            <div class="form-container">
+                <div class="form-tabs__container">
+
+                    <div class="tab-info__text step__text">Step 1 of 3</div>
+
+                    <div class="form-tab active" tabindex="1">
+
+                        <div class="tab-title__container">
+                            <div class="tab-title">
+                                Fill Out A Short Survey And We'll Provide You With A Tailored Quote.
+                            </div>
+                            <br>
+                            <div class="tab-title-sub">
+                                Complete the form to receive your personalized Jaycon quote. Our team will reach out to
+                                ensure you get the best value possible.
+                            </div>
+                        </div>
+
+                        <div class="form-input__group">
+
+                            <div class="form-input__box">
+
+                                <div class="form-input__label">First Name <span class="mandatory">*</span></div>
+                                <div class="form-input__input">
+                                    <input class="input-val" type="text" placeholder="First Name" required
+                                        name="first_name" id="first_name">
+                                </div>
+                            </div>
+
+                            <div class="form-input__box">
+                                <div class="form-input__label">Last Name <span class="mandatory">*</span></div>
+                                <div class="form-input__input">
+                                    <input class="input-val" type="text" placeholder="Last Name" id="last_name"
+                                        name="last_name" required>
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                        <div class="form-input__box">
+                            <div class="form-input__label">Email <span class="mandatory">*</span></div>
+                            <div class="form-input__input">
+                                <input class="input-val" oninput="validateEmail(this)" type="email"
+                                    placeholder="example@domain.com" id="email" name="email">
+                            </div>
+                            <div id="emailValidationMessage"></div>
+                        </div>
+
+
+                        <div class="form-input__box">
+                            <div class="form-input__label">Phone <span class="mandatory">*</span></div>
+                            <div class="form-input__input">
+                                <input type="tel" oninput="formatAndValidatePhoneNumber(this)"
+                                    placeholder="(___) ___-____" required class="input-val" id="phone" name="phone">
+                            </div>
+                            <div id="validationMessage"></div>
+                        </div>
+
+                    </div>
+
+                    <div class="form-tab " tabindex="2">
+
+                        <div class="form-input__box">
+                            <div class="form-input__label">What best describes yourself?<span class="mandatory">*</span>
+                            </div>
+                            <div class="form-input__input">
+                                <select name="describes_your_self" id="describes_your_self" class="input-val">
+                                    <option value="" selected="">Please Select</option>
+                                    <option value="Student">Student</option>
+                                    <option value="Entrepreneur">Entrepreneur</option>
+                                    <option value="Startup (Self Funded)">Startup (Self Funded)</option>
+                                    <option value="Startup (Privately Funded)">Startup (Privately Funded)</option>
+                                    <option value="Small Business (< 500 Employees)">Small Business (&lt; 500
+                                        Employees)</option>
+                                    <option value="Large Business (> 500 Employees)">Large Business (&gt; 500
+                                        Employees)</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-input__box">
+                            <div class="form-input__label">What is the topic of your inquiry today?<span
+                                    class="mandatory">*</span>
+                            </div>
+                            <div class="form-input__input">
+                                <select name="inquiry_topic" id="inquiry_topic" class="-val">
+                                    <option value="" selected="">Please Select</option>
+                                    <option value="Prototyping">Prototyping</option>
+                                    <option value="Injection Molding">Injection Molding</option>
+                                    <option value="PCB Assembly">PCB Assembly</option>
+                                    <option value="Human Resources">Human Resources</option>
+                                    <option value="Media / Marketing">Media / Marketing</option>
+                                    <option value="Becoming a software /service provider">Becoming a software
+                                        /service provider</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+                            <div class="selected-tags"></div>
+
+                        </div>
+
+                        <div class="form-input__box">
+                            <div class="form-input__label">Message<span class="mandatory">*</span>
+                            </div>
+                            <div class="form-input__input">
+                                <textarea name="" id="message" cols="30" rows="8" class="input-val"
+                                    name="message"></textarea>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="form-tab " tabindex="3">
+
+                        <div class="tab-title__container">
+                            <div class="tab-title">
+                                For Faster Responses, Include More Information About Your Project:
+                            </div>
+                        </div>
+
+                        <div class="eval-fields">
+
+                            <div style="margin-block: 1rem;">
+                                <div class="form-input__label" style="margin-bottom: .6rem">
+                                    Do you require an NDA?
+                                </div>
+                                <div class="form-input__checkbox">
+
+                                    <div class="form-checkbox_input">
+                                        <input type="radio" id="nda-yes" checked>
+                                    </div>
+                                    <label class="form-checkbox__label" for="nda-yes">Yes - Please fill out our e-NDA:
+                                        <a href="https://app.hellosign.com/s/HhXtYmro" target="_blank">
+                                            jayconsystems.com/nda</a>
+                                    </label>
+                                </div>
+                                <div class="form-input__checkbox">
+                                    <div class="form-checkbox_input">
+                                        <input type="radio" id="nda-no">
+                                    </div>
+                                    <label class="form-checkbox__label" for="nda-no">No</label>
+                                </div>
+
+                            </div>
+
+                            <div class="form-input__box">
+                                <div class="form-input__label">Company Name
+                                </div>
+                                <div class="form-input__input">
+                                    <input type="text" placeholder="Company Name" id="company_name">
+                                </div>
+                            </div>
+
+                            <div class="form-input__box">
+                                <div class="form-input__label">What stage of the product development process are you
+                                    right now?
+
+                                </div>
+                                <div class="form-input__input">
+                                    <select name="stage" id="stage">
+                                        <option value="">Please Select</option>
+                                        <option value="Engaging with manufacturers">Engaging with manufacturers
+                                        </option>
+                                        <option value="Business planning and research">Business planning and
+                                            research
+                                        </option>
+                                        <option value="Ready to start production/engineering">Ready to start
+                                            production/engineering</option>
+                                        <option value="Trying to raise capital">Trying to raise capital</option>
+                                    </select>
+                                </div>
+                            </div>
+
+
+
+                        </div>
+
+                    </div>
+                    <div class="form-tab " tabindex="4">
+
+                        <div class="eval-fields-2">
+
+                            <div class="form-input__box">
+                                <div class="form-input__label">What kind of funding are you using for this project?
+                                    ?
+                                </div>
+                                <div class="form-input__input">
+                                    <select name="project_type" id="project_type">
+                                        <option value="">Please Select</option>
+                                        <option value="I don't have funding, I'm just researching costs">I don't
+                                            have
+                                            funding, I'm just researching costs</option>
+                                        <option value="Self-funded">Self-funded</option>
+                                        <option value="Investor funding">Investor funding</option>
+                                        <option value="Company funding">Company funding</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-input__box">
+                                <div class="form-input__label">What is your budget?</div>
+                                <div class="form-input__input">
+                                    <select name="budget" id="budget">
+                                        <option value="" selected="">Please Select</option>
+                                        <option value="Less than $5,000">Less than $5,000</option>
+                                        <option value="$5,000  - $10,000">$5,000 - $10,000</option>
+                                        <option value="$10,001 - $50,000">$10,001 - $50,000</option>
+                                        <option value="$50,001 - $100,000">$50,001 - $100,000</option>
+                                        <option value="More than $100,000">More than $100,000</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-input__box">
+                                <div class="form-input__label">What is the timeline for this project?
+                                </div>
+                                <div class="form-input__input">
+                                    <select name="timeline" id="timeline">
+                                        <option value="">Please Select</option>
+                                        <option value="1 - 4 Weeks | 0 - 1 Month">1 - 4 Weeks | 0 - 1 Month</option>
+                                        <option value="4 - 12 Weeks | 1 - 3 Months">4 - 12 Weeks | 1 - 3 Months
+                                        </option>
+                                        <option value="12 - 24 Weeks | 3 - 6 Months">12 - 24 Weeks | 3 - 6 Months
+                                        </option>
+                                        <option value="24 - 48 Weeks | 6 - 12 Months">24 - 48 Weeks | 6 - 12 Months
+                                        </option>
+                                        <option value="48+ Weeks | 12+ Months">48+ Weeks | 12+ Months</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="form-tab" tabindex="5">
+
+
+                        <div class="form-input__box">
+                            <div class="form-input__label">How did you hear about us?<span class="mandatory">*</span>
+                            </div>
+                            <div class="form-input__input">
+                                <select class="input-val" id="hear_about_us">
+                                    <option value="">Please Select</option>
+                                    <option value="Thomasnet">Thomasnet</option>
+                                    <option value="IAAPA Tradeshow 2022">IAAPA Tradeshow 2022</option>
+                                    <option value="Other">Other</option>
+                                    <option value="Blog">Blog</option>
+                                    <option value="Trade Show">Trade Show</option>
+                                    <option value="Google Maps">Google Maps</option>
+                                    <option value="IAAPA Expo 2022">IAAPA Expo 2022</option>
+                                    <option value="Tradeshow - CES 2023">Tradeshow - CES 2023</option>
+                                    <option value="Google Search">Google Search</option>
+                                    <option value="Walk In">Walk In</option>
+                                    <option value="Campaign">Campaign</option>
+                                    <option value="Customer's Vendor">Customer's Vendor</option>
+                                    <option value="Mass Mailing">Mass Mailing</option>
+                                    <option value="Supplier Reference">Supplier Reference</option>
+                                    <option value="Exhibition">Exhibition</option>
+                                    <option value="Cold Calling">Cold Calling</option>
+                                    <option value="Advertisement">Advertisement</option>
+                                    <option value="Reference">Reference</option>
+                                    <option value="Existing Customer">Existing Customer</option>
+                                </select>
+                                <!-- <input type="text" placeholder="" class="input-val" id="hear_about_us"> -->
+                            </div>
+                        </div>
+
+                        <div class="form-input__box">
+                            <div class="form-input__label">File Attachment</div>
+                            <div class="form-input__input-file">
+                                <img src="https://cdn-icons-png.flaticon.com/512/159/159626.png" alt="">
+                                <p>Browse Files</p>
+                                <input type="file" id="attachment-input" multiple>
+                            </div>
+                            <div class="file-result-status">
+
+                            </div>
+                            <div class="file-result">
+
+
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+
+                <div class="form-notification" id="form-warning"></div>
+                <div class="form-tabs__navigation">
+                    <div id="space-tab"></div>
+                    <button class="form-nav__btn" id="prev-tab" style="display: none;">Back</button>
+                    <button class="form-nav__btn" id="next-tab">Next</button>
+
+                    <button class="form-nav__btn" id="submit-form" style="display: none;">Submit</button>
+                </div>
+            </div>
+        </section>
+    </div>
+
+</div>
+
+{% endblock %}
+
+<script src="get-quote.js"></script>
